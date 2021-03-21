@@ -1,6 +1,6 @@
 # address-book-tkinker
 
-Python desktop application using Tkinker.
+Python desktop application using tkinter.
 
 App saves and read all data from disk file.
 
