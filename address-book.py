@@ -26,7 +26,7 @@ def save_data_to_file():
     f = open("address-list.txt", "w")
     temp_arr = defaultAddressList
     for arr in temp_arr:
-        f.write(arr[1] + ', ' + arr[0] + ', ' + arr[2] + '\n')
+        f.write(arr[0].strip() + ', ' + arr[1].strip() + ', ' + arr[2].strip() + '\n')
 
 
 def prepare_data():
@@ -182,8 +182,9 @@ def set_select():
     select.delete(0, END)
     clear_inputs()
     for fname, lname, phone in defaultAddressList:
-        select.insert(END, "{0}, {1}, {2}".format(lname.strip(), fname.strip(), phone.strip()))
+        select.insert(END, "{0}, {1}, {2}".format(fname.strip(), lname.strip(), phone.strip()))
     save_data_to_file()
+    defaultAddressList.sort(key=lambda record: record[1])
 
 
 prepare_data()
