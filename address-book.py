@@ -82,14 +82,18 @@ def clear_inputs():
 # https://stackoverflow.com/questions/43839536/typeerror-generatecode-takes-0-positional-arguments-but-1-was-given/43839602
 def add_entry(self=None):
     try:
-        if len(firstnamevar.get().strip()) == 0 or len(lastnamevar.get().strip()) == 0 or len(phoneoraddressvar.get().strip()) == 0:
+        fname = firstnamevar.get().strip().capitalize()
+        lname = lastnamevar.get().strip().title()
+        phone = phoneoraddressvar.get().strip().title()
+
+        if len(fname) == 0 or len(lname) == 0 or len(phone) == 0:
             raise ValueError
-        elif firstnamevar.get().find(',') >= 0 or lastnamevar.get().find(',') >= 0 or phoneoraddressvar.get().find(',') >= 0:
+        elif fname.find(',') >= 0 or lname.find(',') >= 0 or phone.find(',') >= 0:
             raise AssertionError
 
-        check_duplicate(firstnamevar.get().strip().title(), lastnamevar.get().strip().title(), phoneoraddressvar.get().strip().title())
+        check_duplicate(fname, lname, phone)
 
-        defaultAddressList.append([firstnamevar.get().title(), lastnamevar.get().title(), phoneoraddressvar.get().title()])
+        defaultAddressList.append([fname, lname, phone])
 
         reset_set_save_select()
 
@@ -107,19 +111,23 @@ def add_entry(self=None):
 
 def update_entry():
     try:
-        if len(firstnamevar.get().strip()) == 0 and len(lastnamevar.get().strip()) == 0 and len(phoneoraddressvar.get().strip()) == 0:
+        fname = firstnamevar.get().strip().capitalize()
+        lname = lastnamevar.get().strip().title()
+        phone = phoneoraddressvar.get().strip().title()
+
+        if len(fname) == 0 and len(lname) == 0 and len(phone) == 0:
             raise ValueError
-        elif firstnamevar.get().find(',') >= 0 or lastnamevar.get().find(',') >= 0 or phoneoraddressvar.get().find(',') >= 0:
+        elif fname.find(',') >= 0 or lname.find(',') >= 0 or phone.find(',') >= 0:
             raise AssertionError
         elif type(which_selected()) != int:
             raise IndexError
 
-        check_duplicate(firstnamevar.get().strip(), lastnamevar.get().strip(), phoneoraddressvar.get().strip())
+        check_duplicate(fname, lname, phone)
 
         defaultAddressList[which_selected()] = [
-            firstnamevar.get().capitalize() or defaultAddressList[which_selected()][0],
-            lastnamevar.get().capitalize() or defaultAddressList[which_selected()][1],
-            phoneoraddressvar.get().capitalize() or defaultAddressList[which_selected()][2]
+            fname or defaultAddressList[which_selected()][0],
+            lname or defaultAddressList[which_selected()][1],
+            phone or defaultAddressList[which_selected()][2]
         ]
 
         reset_set_save_select()
@@ -228,7 +236,7 @@ def reset_set_save_select(clear: bool = True):
         clear : clear_inputs()
 
         for fname, lname, phone in defaultAddressList:
-            select.insert(END, "{0}, {1}, {2}".format(fname.strip().capitalize(), lname.strip().capitalize(), phone.strip().capitalize()))
+            select.insert(END, "{0}, {1}, {2}".format(fname, lname, phone))
 
         defaultAddressList.sort(key=lambda record: record[0])
 
