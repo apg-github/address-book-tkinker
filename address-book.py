@@ -4,6 +4,7 @@ from tkinter import *
 import tkinter.font as globalFont
 from tkinter import messagebox as msb
 
+global defaultAddressList
 # default address list is used when problem with loading data from file occurs
 defaultAddressList = [['Chris', 'Meyers', '241-343-4349'],
                       ['Robert', 'Smith', '202-689-1234'],
@@ -16,6 +17,32 @@ defaultAddressList = [['Chris', 'Meyers', '241-343-4349'],
                       ['Drake', 'Smidth', '856-689-1234'],
                       ['Movement', 'Szyn', '856-689-1234'],
                       ['Bob', 'Ukol', '856-689-1234']]
+
+
+def prepare_data():
+    try:
+        file = open('address-list.txt', 'r')
+        file_read = file.readlines()
+        array_of_read_lines_from_file = []
+        nested_array = []
+
+        # convert array of string to array of array of string
+        # eg. ['Chris, Meyers, 241-343-4349', 'Robert, Smith, 202-689-1234'] convert to:
+        # [['Chris', ' Meyers', ' 241-343-4349'], ['Robert', ' Smith', ' 202-689-1234']]
+        for line in file_read:
+            array_of_read_lines_from_file.append(line.replace('\n', ''))
+        for newline in array_of_read_lines_from_file:
+            nested_array.append(newline.split(','))
+
+        print(array_of_read_lines_from_file)
+        print(nested_array)
+
+        globals()['defaultAddressList'] = nested_array
+        file.close()
+    except Exception:
+        print('Coś poszło nie tak z odczytem danych z pliku.')
+        file.close()
+        pass
 
 
 def which_selected():
@@ -151,6 +178,7 @@ def set_select():
         select.insert(END, "{0}, {1}, {2}".format(lname, fname, phone))
 
 
+prepare_data()
 win = make_window()
 set_select()
 win.geometry('900x600')
