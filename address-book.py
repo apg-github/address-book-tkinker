@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from tkinter import *
-import tkinter.font as globalFont
 from tkinter import messagebox as msb
+import tkinter.font as globalFont
+
 
 global defaultAddressList
 # default address list is used when problem with loading data from file occurs
@@ -19,6 +20,15 @@ defaultAddressList = [['Chris', 'Meyers', '241-343-4349'],
                       ['Bob', 'Ukol', '856-689-1234']]
 
 
+# Chris, Meyers, 241-343-4349
+# Robert, Smith, 202-689-1234
+def save_data_to_file():
+    f = open("address-list.txt", "w")
+    temp_arr = defaultAddressList
+    for arr in temp_arr:
+        f.write(arr[1] + ', ' + arr[0] + ', ' + arr[2] + '\n')
+
+
 def prepare_data():
     try:
         file = open('address-list.txt', 'r')
@@ -33,9 +43,6 @@ def prepare_data():
             array_of_read_lines_from_file.append(line.replace('\n', ''))
         for newline in array_of_read_lines_from_file:
             nested_array.append(newline.split(','))
-
-        print(array_of_read_lines_from_file)
-        print(nested_array)
 
         globals()['defaultAddressList'] = nested_array
         file.close()
@@ -56,7 +63,7 @@ def clear_inputs():
     phonevar.set('')
 
 
-# paramter self=None jest konieczny w związku z bindowaniem entera do odpalenia tej funkcji, zgodnie z wątkiem w linku
+# parametr self=None jest konieczny w związku z bindowaniem entera do odpalenia tej funkcji, zgodnie z wątkiem w linku
 # https://stackoverflow.com/questions/43839536/typeerror-generatecode-takes-0-positional-arguments-but-1-was-given/43839602
 def add_entry(self=None):
     try:
@@ -92,7 +99,7 @@ def update_entry():
         pass
 
 
-# paramter self=None jest konieczny w związku z bindowaniem entera do odpalenia tej funkcji, zgodnie z wątkiem w linku
+# parametr self=None jest konieczny w związku z bindowaniem entera do odpalenia tej funkcji, zgodnie z wątkiem w linku
 # https://stackoverflow.com/questions/43839536/typeerror-generatecode-takes-0-positional-arguments-but-1-was-given/43839602
 def delete_entry(self=None):
     try:
@@ -175,7 +182,8 @@ def set_select():
     select.delete(0, END)
     clear_inputs()
     for fname, lname, phone in defaultAddressList:
-        select.insert(END, "{0}, {1}, {2}".format(lname, fname, phone))
+        select.insert(END, "{0}, {1}, {2}".format(lname.strip(), fname.strip(), phone.strip()))
+    save_data_to_file()
 
 
 prepare_data()
