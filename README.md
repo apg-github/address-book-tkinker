@@ -1,4 +1,4 @@
-# address-book-tkinker
+# contact-book-tkinter
 
 Python desktop application using tkinter.
 
