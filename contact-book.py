@@ -12,7 +12,7 @@ defaultAddressList = []
 
 
 def save_data_to_file():
-    f = open("address-list.txt", "w")
+    f = open("contact-book.txt", "w")
 
     # used deepcopy because array is nested
     temp_arr = copy.deepcopy(defaultAddressList)
@@ -33,7 +33,7 @@ def check_duplicate(name, surname, addressorphone):
 
 def prepare_data():
      try:
-        file = open('address-list.txt', 'r')
+        file = open('contact-book.txt', 'r')
         file_read = file.readlines()
 
         print('Saved data file found.')
@@ -54,7 +54,7 @@ def prepare_data():
         file.close()
      except FileNotFoundError:
          print('Saved data file cannot be found or opened. Creating new one...')
-         f = open("address-list.txt", "w+")
+         f = open("contact-book.txt", "w+")
          f.close()
      except:
          print("Unhandled exception occurs. Please consider letting know to administrator or app developer.")
